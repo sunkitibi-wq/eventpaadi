@@ -1,0 +1,22 @@
+{
+  "application": {
+    "build_command": "composer install --no-dev && npm run build",
+    "deploy_command": "php artisan migrate --force",
+    "environment_variables": {
+      "APP_ENV": "prod",
+      "APP_DEBUG": "false",
+      "APP_KEY": "",
+      "DB_CONNECTION": "",
+      "DB_HOST": "",
+      "DB_PORT": "",
+      "DB_DATABASE": "",
+      "DB_USERNAME": "",
+      "DB_PASSWORD": "",
+      "AWS_ACCESS_KEY_ID": "",
+      "AWS_SECRET_ACCESS_KEY": "",
+      "AWS_DEFAULT_REGION": "us-east-1",
+      "AWS_BUCKET": "",
+      "AWS_USE_PATH_STYLE_ENDPOINT": "false"
+    }
+  }
+}
