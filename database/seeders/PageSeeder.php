@@ -10,7 +10,10 @@ class PageSeeder extends Seeder
 {
     public function run(): void
     {
-        $author = User::first() ?? User::factory()->create();
+        $author = User::first() ?? User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            ['name' => 'Admin User', 'password' => bcrypt('password')]
+        );
 
         // 1. Home Page
         Page::updateOrCreate(
