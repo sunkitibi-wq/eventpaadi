@@ -27,6 +27,12 @@ class MenuForm
                     ->schema([
                         TextInput::make('label')
                             ->required(),
+                        Select::make('page_id')
+                            ->relationship('page', 'title')
+                            ->searchable()
+                            ->preload()
+                            ->label('Link to Page')
+                            ->helperText('Or enter a custom URL/Route below'),
                         TextInput::make('url'),
                         TextInput::make('route'),
                         Select::make('target')

@@ -75,19 +75,25 @@
                 </a>
                 
                 <nav class="hidden md:flex items-center gap-8">
-                    <a class="font-label-md text-label-md {{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('home') }}">Home</a>
-                    <a class="font-label-md text-label-md {{ request()->routeIs('support') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('support') }}">Support</a>
-                    <a class="font-label-md text-label-md {{ request()->routeIs('resources') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('resources') }}">Resources</a>
-                    <a class="font-label-md text-label-md {{ request()->routeIs('academy') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('academy') }}">Academy</a>
-                    <a class="font-label-md text-label-md {{ request()->routeIs('blog.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('blog.index') }}">Blog</a>
+                    @if(isset($primaryMenu) && $primaryMenu->items->isNotEmpty())
+                        @foreach($primaryMenu->items as $item)
+                            <a class="font-label-md text-label-md {{ request()->url() === $item->getHref() ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ $item->getHref() }}" target="{{ $item->target ?? '_self' }}">{{ $item->label }}</a>
+                        @endforeach
+                    @else
+                        <a class="font-label-md text-label-md {{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('home') }}">Home</a>
+                        <a class="font-label-md text-label-md {{ request()->routeIs('support') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('support') }}">Support</a>
+                        <a class="font-label-md text-label-md {{ request()->routeIs('resources') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('resources') }}">Resources</a>
+                        <a class="font-label-md text-label-md {{ request()->routeIs('academy') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('academy') }}">Academy</a>
+                        <a class="font-label-md text-label-md {{ request()->routeIs('blog.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant dark:text-outline-variant pb-1 hover:text-primary dark:hover:text-inverse-primary transition-all duration-500 hover:-translate-y-0.5' }}" href="{{ route('blog.index') }}">Blog</a>
+                    @endif
                 </nav>
             </div>
             
             <div class="flex items-center gap-4">
-                <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center">
+                <form action="{{ route('search') }}" method="GET" class="flex items-center">
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
-                        <input type="text" name="q" placeholder="Search insights..." value="{{ request('q') }}" required class="pl-9 pr-4 py-2 rounded-full border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary text-sm transition-all w-40 focus:w-56">
+                        <input type="text" name="q" placeholder="Search..." value="{{ request('q') }}" required class="pl-9 pr-4 py-2 rounded-full border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary text-sm transition-all w-32 md:w-40 focus:w-48 md:focus:w-56">
                     </div>
                 </form>
                 <a href="mailto:hello@eventpaadi.ng" class="hidden lg:block px-6 py-2.5 rounded-lg border border-secondary text-secondary font-label-md hover:bg-secondary-container transition-all duration-300">Contact</a>
@@ -111,11 +117,17 @@
         <button class="absolute top-6 right-6 p-2 text-on-surface" onclick="document.getElementById('mobile-menu').classList.add('hidden')">
             <span class="material-symbols-outlined text-3xl">close</span>
         </button>
-        <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('home') }}">Home</a>
-        <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('support') }}">Support</a>
-        <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('resources') }}">Resources</a>
-        <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('academy') }}">Academy</a>
-        <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('blog.index') }}">Blog</a>
+        @if(isset($primaryMenu) && $primaryMenu->items->isNotEmpty())
+            @foreach($primaryMenu->items as $item)
+                <a class="font-headline-md text-headline-md text-on-surface" href="{{ $item->getHref() }}" target="{{ $item->target ?? '_self' }}">{{ $item->label }}</a>
+            @endforeach
+        @else
+            <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('home') }}">Home</a>
+            <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('support') }}">Support</a>
+            <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('resources') }}">Resources</a>
+            <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('academy') }}">Academy</a>
+            <a class="font-headline-md text-headline-md text-on-surface" href="{{ route('blog.index') }}">Blog</a>
+        @endif
         <div class="h-px bg-outline-variant my-4"></div>
         <a href="mailto:hello@eventpaadi.ng" class="w-full text-center py-3 rounded-lg border border-secondary text-secondary font-label-md">Contact Us</a>
     </div>

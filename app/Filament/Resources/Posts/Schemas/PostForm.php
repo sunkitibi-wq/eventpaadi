@@ -22,6 +22,7 @@ class PostForm
                     ->required(),
                 Select::make('user_id')
                     ->relationship('author', 'name')
+                    ->default(fn () => auth()->id())
                     ->required(),
                 Select::make('category_id')
                     ->relationship('category', 'name'),

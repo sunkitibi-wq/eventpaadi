@@ -12,7 +12,7 @@ class MenuItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'menu_id', 'parent_id', 'label', 'url', 'route',
+        'menu_id', 'parent_id', 'page_id', 'label', 'url', 'route',
         'target', 'icon', 'order', 'is_active',
     ];
 
@@ -33,5 +33,27 @@ class MenuItem extends Model
     public function children(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'parent_id')->orderBy('order');
+    }
+
+    public function page(): BelongsTo
+    {
+        return $this->belongsTo(Page::class);
+    }
+
+    public function getHref(): string
+    {
+        if ($this->page_id && $this->page) {
+            return url('/' . ltrim($this->page->slug, '/'));
+        }
+
+        if ($this->route) {
+            return route($this->route);
+        }
+
+        if ($this->url) {
+            return str_starts_with($this->url, '/') ? url($this->url) : $this->url;
+        }
+
+        return '#';
     }
 }

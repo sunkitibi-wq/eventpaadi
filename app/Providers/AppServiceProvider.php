@@ -24,6 +24,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            $view->with('primaryMenu', \App\Models\Menu::where('location', 'header')->with(['items' => function ($query) {
+                $query->whereNull('parent_id')->with('children', 'page');
+            }])->first());
+            
+            $view->with('footerMenu', \App\Models\Menu::where('location', 'footer')->with(['items' => function ($query) {
+                $query->whereNull('parent_id')->with('children', 'page');
+            }])->first());
+        });
     }
 
     /**
