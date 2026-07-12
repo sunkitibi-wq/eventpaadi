@@ -10,16 +10,16 @@ use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $posts = Post::latest('created_at')->paginate(15);
+        $posts = $request->user()->posts()->latest('created_at')->paginate(15);
 
         return view('posts.index', compact('posts'));
     }
 
     public function create(): View
     {
-        return view('posts.create');
+        return view('posts.create', ['post' => new Post]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -42,18 +42,24 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', __('Post created successfully.'));
     }
 
-    public function show(Post $post): View
+    public function show(Request $request, Post $post): View
     {
+        abort_if($post->user_id !== $request->user()->id, 403);
+        
         return view('posts.show', compact('post'));
     }
 
-    public function edit(Post $post): View
+    public function edit(Request $request, Post $post): View
     {
+        abort_if($post->user_id !== $request->user()->id, 403);
+        
         return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post): RedirectResponse
     {
+        abort_if($post->user_id !== $request->user()->id, 403);
+        
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
@@ -65,15 +71,16 @@ class PostController extends Controller
 
         $data['slug'] = $this->generateSlug($data['slug'] ?? '', $data['title'], $post->id);
         $data['published_at'] = $this->resolvePublishedAt($data);
-        $data['user_id'] = $request->user()->id;
 
         $post->update($data);
 
         return redirect()->route('posts.index')->with('success', __('Post updated successfully.'));
     }
 
-    public function destroy(Post $post): RedirectResponse
+    public function destroy(Request $request, Post $post): RedirectResponse
     {
+        abort_if($post->user_id !== $request->user()->id, 403);
+        
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', __('Post deleted successfully.'));

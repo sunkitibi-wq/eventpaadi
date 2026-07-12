@@ -22,9 +22,12 @@ class MenuResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBars3;
 
-    protected static UnitEnum|string|null $navigationGroup = 'Appearance';
-
     protected static ?int $navigationSort = 7;
+
+    public static function canViewAny(): bool
+    {
+        return true;
+    }
 
     protected static ?string $recordTitleAttribute = 'name';
 

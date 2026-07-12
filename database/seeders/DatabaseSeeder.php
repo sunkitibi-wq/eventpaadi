@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PageSeeder::class);
 
         $superAdmin = User::firstOrCreate([
-            'email' => 'superadmin@example.com',
+            'email' => 'superadmin@eventpaadi.com',
         ], [
             'name' => 'Super Admin',
             'password' => bcrypt('password'),
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $superAdmin->assignRole('Super Admin');
 
         $admin = User::firstOrCreate([
-            'email' => 'admin@example.com',
+            'email' => 'admin@eventpaadi.com',
         ], [
             'name' => 'Admin User',
             'password' => bcrypt('password'),
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole('Admin');
 
         $editor = User::firstOrCreate([
-            'email' => 'editor@example.com',
+            'email' => 'editor@eventpaadi.com',
         ], [
             'name' => 'Editor User',
             'password' => bcrypt('password'),

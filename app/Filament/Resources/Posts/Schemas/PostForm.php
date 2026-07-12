@@ -20,10 +20,8 @@ class PostForm
                     ->required(),
                 TextInput::make('slug')
                     ->required(),
-                Select::make('user_id')
-                    ->relationship('author', 'name')
-                    ->default(fn () => auth()->id())
-                    ->required(),
+                \Filament\Forms\Components\Hidden::make('user_id')
+                    ->default(fn () => auth()->id()),
                 Select::make('category_id')
                     ->relationship('category', 'name'),
                 Select::make('tags')
