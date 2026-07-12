@@ -33,7 +33,7 @@
 
             <!-- Content -->
             <div class="font-body-md text-on-surface/90 leading-loose space-y-6 pt-4 border-t border-outline-variant">
-                {!! nl2br(e($post->content)) !!}
+                {!! $post->content !!}
             </div>
         </div>
     </article>
