@@ -84,6 +84,12 @@
             </div>
             
             <div class="flex items-center gap-4">
+                <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center">
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+                        <input type="text" name="q" placeholder="Search insights..." value="{{ request('q') }}" required class="pl-9 pr-4 py-2 rounded-full border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary text-sm transition-all w-40 focus:w-56">
+                    </div>
+                </form>
                 <a href="mailto:hello@eventpaadi.ng" class="hidden lg:block px-6 py-2.5 rounded-lg border border-secondary text-secondary font-label-md hover:bg-secondary-container transition-all duration-300">Contact</a>
                 
                 @auth
