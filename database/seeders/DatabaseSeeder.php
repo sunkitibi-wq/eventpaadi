@@ -12,30 +12,34 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionSeeder::class);
         $this->call(PageSeeder::class);
 
-        $superAdmin = User::factory()->create([
-            'name' => 'Super Admin',
+        $superAdmin = User::firstOrCreate([
             'email' => 'superadmin@example.com',
+        ], [
+            'name' => 'Super Admin',
             'password' => bcrypt('password'),
         ]);
         $superAdmin->assignRole('Super Admin');
 
-        $admin = User::factory()->create([
-            'name' => 'Admin User',
+        $admin = User::firstOrCreate([
             'email' => 'admin@example.com',
+        ], [
+            'name' => 'Admin User',
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole('Admin');
 
-        $editor = User::factory()->create([
-            'name' => 'Editor User',
+        $editor = User::firstOrCreate([
             'email' => 'editor@example.com',
+        ], [
+            'name' => 'Editor User',
             'password' => bcrypt('password'),
         ]);
         $editor->assignRole('Editor');
 
-        $user = User::factory()->create([
-            'name' => 'Regular User',
+        $user = User::firstOrCreate([
             'email' => 'user@example.com',
+        ], [
+            'name' => 'Regular User',
             'password' => bcrypt('password'),
         ]);
         $user->assignRole('User');
