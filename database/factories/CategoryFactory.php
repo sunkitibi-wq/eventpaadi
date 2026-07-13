@@ -18,8 +18,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => ucwords(fake()->unique()->words(2, true)),
-            'description' => fake()->sentence(),
+            'name' => ucwords($this->faker->unique()->words(2, true)),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

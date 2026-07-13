@@ -16,17 +16,17 @@ class PostFactory extends Factory
 
     public function definition(): array
     {
-        $title = fake()->sentence(6);
-        $content = fake()->paragraphs(4, true);
+        $title = $this->faker->sentence(6);
+        $content = $this->faker->paragraphs(4, true);
 
         return [
             'user_id' => User::factory(),
             'title' => $title,
-            'slug' => Str::slug($title).'-'.fake()->unique()->randomNumber(4),
-            'excerpt' => fake()->paragraph(2),
+            'slug' => Str::slug($title).'-'.$this->faker->unique()->randomNumber(4),
+            'excerpt' => $this->faker->paragraph(2),
             'content' => $content,
-            'status' => 'draft',
-            'published_at' => null,
+            'status' => 'published',
+            'published_at' => now(),
         ];
     }
 
