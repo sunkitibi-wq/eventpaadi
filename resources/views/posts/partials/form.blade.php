@@ -28,6 +28,27 @@
     </div>
 
     <div>
+        <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-200" for="featured_image">{{ __('Featured Image') }}</label>
+        
+        @if(isset($post) && $post->featured_image)
+            <div class="mb-4">
+                <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}" class="h-32 w-auto rounded-lg object-cover border border-neutral-200 dark:border-neutral-700">
+            </div>
+        @endif
+
+        <input
+            id="featured_image"
+            name="featured_image"
+            type="file"
+            accept="image/*"
+            class="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100 dark:border-neutral-700 dark:bg-zinc-950 dark:text-neutral-100 dark:focus:border-sky-500"
+        />
+        @error('featured_image')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div>
         <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-200" for="excerpt">{{ __('Excerpt') }}</label>
         <textarea
             id="excerpt"

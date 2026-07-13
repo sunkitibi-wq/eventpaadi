@@ -15,12 +15,14 @@ class SearchController extends Controller
             return redirect()->back();
         }
 
-        // Search for posts using Scout
-        $posts = Post::search($query)->paginate(10);
+        // Search for posts and pages using Scout
+        $posts = Post::search($query)->paginate(10, 'post_page');
+        $pages = \App\Models\Page::search($query)->paginate(10, 'page_page');
 
         return view('search.results', [
             'query' => $query,
             'posts' => $posts,
+            'pages' => $pages,
         ]);
     }
 }

@@ -18,6 +18,11 @@
                 @foreach ($posts as $post)
                     <article class="group bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:border-primary hover:shadow-[0px_4px_20px_rgba(46,42,110,0.08)] hover:translate-y-[-4px] transition-all duration-500 flex flex-col justify-between">
                         <div>
+                            @if($post->featured_image)
+                                <a href="{{ route('blog.show', $post) }}" class="block mb-5 overflow-hidden rounded-lg bg-surface-container-low border border-outline-variant/30">
+                                    <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                                </a>
+                            @endif
                             <div class="flex items-center gap-4 text-caption text-on-surface-variant mb-4">
                                 <span class="flex items-center gap-1">
                                     <span class="material-symbols-outlined text-[16px]">calendar_month</span>

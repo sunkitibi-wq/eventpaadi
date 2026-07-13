@@ -12,7 +12,7 @@ class PostController extends Controller
 {
     public function index(Request $request): View
     {
-        $posts = $request->user()->posts()->latest('created_at')->paginate(15);
+        $posts = $request->user()->posts()->latest('created_at')->paginate(5);
 
         return view('posts.index', compact('posts'));
     }
@@ -29,6 +29,7 @@ class PostController extends Controller
             'slug' => 'nullable|string|max:255',
             'excerpt' => 'nullable|string|max:1000',
             'content' => 'required|string',
+            'featured_image' => 'nullable|image|max:5120',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
@@ -36,6 +37,10 @@ class PostController extends Controller
         $data['slug'] = $this->generateSlug($data['slug'] ?? '', $data['title']);
         $data['published_at'] = $this->resolvePublishedAt($data);
         $data['user_id'] = $request->user()->id;
+
+        if ($request->hasFile('featured_image')) {
+            $data['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+        }
 
         Post::create($data);
 
@@ -65,12 +70,20 @@ class PostController extends Controller
             'slug' => 'nullable|string|max:255',
             'excerpt' => 'nullable|string|max:1000',
             'content' => 'required|string',
+            'featured_image' => 'nullable|image|max:5120',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
 
         $data['slug'] = $this->generateSlug($data['slug'] ?? '', $data['title'], $post->id);
         $data['published_at'] = $this->resolvePublishedAt($data);
+
+        if ($request->hasFile('featured_image')) {
+            if ($post->featured_image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($post->featured_image);
+            }
+            $data['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+        }
 
         $post->update($data);
 

@@ -8,7 +8,7 @@
         </div>
 
         <div class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-zinc-950">
-            <form method="POST" action="{{ route('posts.update', $post) }}">
+            <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

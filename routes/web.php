@@ -14,12 +14,14 @@ Route::get('/search', \App\Http\Controllers\SearchController::class)->name('sear
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('posts', PostController::class);
+    Route::resource('users', \App\Http\Controllers\UserController::class);
 });
 
 require __DIR__.'/settings.php';

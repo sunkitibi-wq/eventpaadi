@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolePermissionSeeder::class);
         $this->call(PageSeeder::class);
+        $this->call(ContentSeeder::class);
 
         $superAdmin = User::firstOrCreate([
             'email' => 'superadmin@eventpaadi.com',

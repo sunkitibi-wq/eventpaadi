@@ -80,6 +80,21 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Reaction::class)->where('is_like', true);
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany(Reaction::class)->where('is_like', false);
+    }
+
     public function getExcerptAttribute(?string $value): string
     {
         return $value ?: str()->limit(strip_tags($this->content), 180);
